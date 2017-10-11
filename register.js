@@ -53,12 +53,9 @@ function registerPromiseWorker(callback) {
         postOutgoingMessage(e, messageId, null, finalResult);
       }, function (finalError) {
         postOutgoingMessage(e, messageId, finalError);
-      })
-      .catch(function ()  {
-      })
+      });
     }
   }
-
   function onIncomingMessage(e) {
     var payload = parseJsonSafely(e.data);
     if (!payload) {
