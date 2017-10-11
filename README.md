@@ -3,6 +3,8 @@ promise-worker [![Build Status](https://travis-ci.org/nolanlawson/promise-worker
 
 A small and performant library for communicating with Web Workers or Service Workers, using Promises. Post a message to the worker, get a message back.
 
+**!!edit: this library has been patched to return raw promises instead of doing internal error handling**
+
 **Goals:**
 
  * Tiny footprint (~2.5kB min+gz)
