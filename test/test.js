@@ -9,7 +9,7 @@ var path = 'bundle-';
 
 var assert = require('assert');
 var PromiseWorker = require('../');
-var Promise = require('lie');
+var Promise = require('promise-polyfill');
 
 describe('main test suite', function () {
 

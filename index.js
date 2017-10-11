@@ -1,7 +1,6 @@
 'use strict';
-
 /* istanbul ignore next */
-var MyPromise = typeof Promise !== 'undefined' ? Promise : require('lie');
+var MyPromise = typeof Promise !== 'undefined' ? Promise : require('promise-polyfill');
 
 var messageIds = 0;
 
@@ -54,9 +53,10 @@ PromiseWorker.prototype.postMessage = function (userMessage) {
   return new MyPromise(function (resolve, reject) {
     self._callbacks[messageId] = function (error, result) {
       if (error) {
-        return reject(new Error(error.message));
+        reject(error);
+      } else {
+        resolve(result);
       }
-      resolve(result);
     };
     var jsonMessage = JSON.stringify(messageToSend);
     /* istanbul ignore if */

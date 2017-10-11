@@ -21,20 +21,15 @@ function registerPromiseWorker(callback) {
         self.postMessage(msg);
       }
     }
-    if (error) {
-      /* istanbul ignore else */
-      if (typeof console !== 'undefined' && 'error' in console) {
-        // This is to make errors easier to debug. I think it's important
-        // enough to just leave here without giving the user an option
-        // to silence it.
-        console.error('Worker caught an error:', error);
-      }
-      postMessage(JSON.stringify([messageId, {
-        message: error.message
-      }]));
-    } else {
-      postMessage(JSON.stringify([messageId, null, result]));
+    // since real Error objects can not be stringified, package the message into a plain object
+    if (error instanceof Error) {
+      error = {message : error.message};
     }
+    var message = JSON.stringify([messageId, error, result]);
+    
+      /* istanbul ignore else */
+      postMessage(message);
+   
   }
 
   function tryCatchFunc(callback, message) {
@@ -58,7 +53,9 @@ function registerPromiseWorker(callback) {
         postOutgoingMessage(e, messageId, null, finalResult);
       }, function (finalError) {
         postOutgoingMessage(e, messageId, finalError);
-      });
+      })
+      .catch(function ()  {
+      })
     }
   }
 
@@ -72,8 +69,10 @@ function registerPromiseWorker(callback) {
     var message = payload[1];
 
     if (typeof callback !== 'function') {
-      postOutgoingMessage(e, messageId, new Error(
-        'Please pass a function into register().'));
+        var message = 'Please pass a function into register()';
+        postOutgoingMessage(e, messageId,
+          message);
+        throw message;
     } else {
       handleIncomingMessage(e, callback, messageId, message);
     }

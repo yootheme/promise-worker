@@ -1,6 +1,6 @@
 'use strict';
 
-var Promise = require('lie');
+var Promise = require('promise-polyfill');
 var denodeify = require('denodeify');
 var rimraf = denodeify(require('rimraf'));
 var mkdirp = denodeify(require('mkdirp'));
