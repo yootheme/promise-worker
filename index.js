@@ -39,9 +39,13 @@ function PromiseWorker(worker) {
   self._worker = typeof worker === 'string' ? new Worker(worker) : worker;
   self._callbacks = {};
 
-  worker.addEventListener('message', function (e) {
+  self._worker.addEventListener('message', function (e) {
     onMessage(self, e);
   });
+}
+
+PromiseWorker.prototype.terminate = function() { 
+  this._worker.terminate();
 }
 
 PromiseWorker.prototype.postMessage = function (userMessage) {
