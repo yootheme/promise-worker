@@ -36,7 +36,7 @@ function onMessage(self, e) {
 
 function PromiseWorker(worker) {
   var self = this;
-  self._worker = worker;
+  self._worker = typeof worker === 'string' ? new Worker(worker) : worker;
   self._callbacks = {};
 
   worker.addEventListener('message', function (e) {
