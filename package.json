@@ -58,7 +58,7 @@
     "zuul-localtunnel": "nolanlawson/zuul-localtunnel#https"
   },
   "peerDependencies": {
-    "promise-polyfill": "^6.0.2"
+    "promise-polyfill": "^7.1.0"
   },
   "dependencies": {
     "is-promise": "^2.1.0"
